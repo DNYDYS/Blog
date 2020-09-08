@@ -1,4 +1,4 @@
-package com.blog.common;
+package com.blog.common.base;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

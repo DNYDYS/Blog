@@ -29,7 +29,7 @@ public class CommonResponce<T> {
      * @author: maiBangMin
      * @date: 2020/9/8 10:30 下午
      */
-    public CommonResponce<T> SUCCESS(){
+    public static <T> CommonResponce<T> SUCCESS(){
         return new CommonResponce<T>(ENUM_CODE.SUCCESS.getCode(),ENUM_CODE.SUCCESS.getMsg(),null);
     }
 
@@ -40,7 +40,7 @@ public class CommonResponce<T> {
      * @author: maiBangMin
      * @date: 2020/9/8 10:34 下午
      */
-    public CommonResponce<T> SUCCESS(T data){
+    public static <T> CommonResponce<T> SUCCESS(T data){
         return new CommonResponce<T>(ENUM_CODE.SUCCESS.getCode(),ENUM_CODE.SUCCESS.getMsg(),data);
     }
 
@@ -52,7 +52,7 @@ public class CommonResponce<T> {
      * @author: maiBangMin
      * @date: 2020/9/8 10:35 下午
      */
-    public CommonResponce<T> SUCCESS(String msg,T data){
+    public static <T> CommonResponce<T> SUCCESS(String msg,T data){
         return new CommonResponce<T>(ENUM_CODE.SUCCESS.getCode(),msg,data);
     }
 
@@ -65,7 +65,7 @@ public class CommonResponce<T> {
      * @author: maiBangMin
      * @date: 2020/9/8 10:39 下午
      */
-    public CommonResponce<T> SUCCESS(int code,String msg,T data){
+    public static <T> CommonResponce<T> SUCCESS(int code,String msg,T data){
         return new CommonResponce<T>(code,msg,data);
     }
 
@@ -76,7 +76,7 @@ public class CommonResponce<T> {
      * @author: maiBangMin
      * @date: 2020/9/8 10:41 下午
      */
-    public CommonResponce<T> FAILED(){
+    public static <T> CommonResponce<T> FAILED(){
         return new CommonResponce<T>(ENUM_CODE.FAIL.getCode(),ENUM_CODE.FAIL.getMsg(),null);
     }
 
@@ -87,7 +87,7 @@ public class CommonResponce<T> {
      * @author: maiBangMin
      * @date: 2020/9/8 10:42 下午
      */
-    public CommonResponce<T> FAILED(T data){
+    public static <T> CommonResponce<T> FAILED(T data){
         return new CommonResponce<T>(ENUM_CODE.FAIL.getCode(),ENUM_CODE.FAIL.getMsg(),data);
     }
 
@@ -99,7 +99,7 @@ public class CommonResponce<T> {
      * @author: maiBangMin
      * @date: 2020/9/8 10:43 下午
      */
-    public CommonResponce<T> FAILED(String msg,T data){
+    public static <T> CommonResponce<T> FAILED(String msg,T data){
         return new CommonResponce<T>(ENUM_CODE.FAIL.getCode(),msg,data);
     }
 
@@ -112,7 +112,7 @@ public class CommonResponce<T> {
      * @author: maiBangMin
      * @date: 2020/9/8 10:44 下午
      */
-    public CommonResponce<T> FAILED(int code,String msg,T data){
+    public static <T> CommonResponce<T> FAILED(int code,String msg,T data){
         return new CommonResponce<T>(code,msg,data);
     }
 

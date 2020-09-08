@@ -113,6 +113,20 @@
             <version>2.9.2</version>
         </dependency>
 
+        <!-- Mybatis-PageHelper -->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.2.10</version>
+        </dependency>
+
+        <!-- Slog4j -->
+        <dependency>
+            <groupId>io.github.torocket</groupId>
+            <artifactId>slog4j</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
         <!-- lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -120,6 +134,30 @@
             <version>1.18.12</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- spring-aop-Begin -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.8.10</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.8.10</version>
+        </dependency>
+
+        <dependency>
+            <groupId>aopalliance</groupId>
+            <artifactId>aopalliance</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <!-- spring-aop-End -->
 
         <!-- 工具类 begin -->
         <!-- common-lang3 -->

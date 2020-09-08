@@ -36,16 +36,15 @@ public class DiaryServiceImpl implements DiaryService {
      */
     @Override
     public CommonResponce<List<Diary>> queryAllDiarys() {
-        CommonResponce<List<Diary>> responce = new CommonResponce<>();
         List<Diary> diaryList = new ArrayList<>();
         DiaryExample diaryExample = new DiaryExample();
         // Y 代表删除 N 代表未删除
         diaryExample.createCriteria().andIsDeletedEqualTo(N);
         diaryList = diaryMapper.selectByExample(diaryExample);
         if(CollectionUtil.isNotEmpty(diaryList)){
-            responce.SUCCESS(diaryList);
+            return CommonResponce.SUCCESS(diaryList);
         }
-        return responce.FAILED();
+        return CommonResponce.FAILED();
     }
 
     /**
@@ -57,7 +56,6 @@ public class DiaryServiceImpl implements DiaryService {
      */
     @Override
     public CommonResponce<Diary> queryOneDiary(Long diaryID) {
-        CommonResponce<Diary> responce = new CommonResponce<>();
         Diary diary = new Diary();
         DiaryExample diaryExample = new DiaryExample();
         if(null != diaryID) {
@@ -65,9 +63,9 @@ public class DiaryServiceImpl implements DiaryService {
         }
         List<Diary> diaryList = diaryMapper.selectByExample(diaryExample);
         if(CollectionUtil.isNotEmpty(diaryList)){
-            return responce.SUCCESS(diaryList.get(0));
+            return CommonResponce.SUCCESS(diaryList.get(0));
         }
-        return responce.FAILED();
+        return CommonResponce.FAILED();
     }
 
     /**
@@ -79,7 +77,6 @@ public class DiaryServiceImpl implements DiaryService {
      */
     @Override
     public CommonResponce insDiary(Diary diary) {
-        CommonResponce responce = new CommonResponce();
         if(null != diary){
             diary.setIsDeleted(N);
             // TODO  获取时间工具类添加，并替换
@@ -89,10 +86,10 @@ public class DiaryServiceImpl implements DiaryService {
             diary.setUpdateTime(new Date());
             int insResult = diaryMapper.insert(diary);
             if(insResult > 1){
-                return responce.SUCCESS();
+                return CommonResponce.SUCCESS();
             }
         }
-        return responce.FAILED();
+        return CommonResponce.FAILED();
     }
 
     /**
@@ -104,16 +101,15 @@ public class DiaryServiceImpl implements DiaryService {
      */
     @Override
     public CommonResponce upDiary(Diary diary) {
-        CommonResponce responce = new CommonResponce();
         if(null != diary) {
             diary.setUpdateUser(System);
             diary.setUpdateTime(new Date());
             int upResult = diaryMapper.updateByPrimaryKeySelective(diary);
             if(upResult > 1){
-                return responce.SUCCESS();
+                return CommonResponce.SUCCESS();
             }
         }
-        return responce.FAILED();
+        return CommonResponce.FAILED();
     }
 
     /**
@@ -125,7 +121,6 @@ public class DiaryServiceImpl implements DiaryService {
      */
     @Override
     public CommonResponce delDiary(Long diaryID) {
-        CommonResponce responce = new CommonResponce();
         if(null != diaryID){
             DiaryExample diaryExample = new DiaryExample();
             diaryExample.createCriteria().andDirIdEqualTo(diaryID).andIsDeletedEqualTo(N);
@@ -137,11 +132,11 @@ public class DiaryServiceImpl implements DiaryService {
                 diary.setUpdateTime(new Date());
                 int  upResult = diaryMapper.updateByPrimaryKey(diary);
                 if(upResult > 1){
-                    return responce.SUCCESS();
+                    return CommonResponce.SUCCESS();
                 }
             }
         }
-        return responce.FAILED();
+        return CommonResponce.FAILED();
     }
 
 

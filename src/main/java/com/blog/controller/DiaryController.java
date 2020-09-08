@@ -1,6 +1,6 @@
 package com.blog.controller;
 
-import com.blog.common.AspectAnno;
+import com.blog.common.base.AspectAnno;
 import com.blog.common.base.CommonResponce;
 import com.blog.model.Diary;
 import com.blog.service.DiaryService;
