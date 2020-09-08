@@ -71,7 +71,7 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     /**
-     * @desc:
+     * @desc: 新增一条日志
      * @param diary
      * @return: int
      * @author: maiBangMin
@@ -96,7 +96,7 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     /**
-     * @desc:
+     * @desc: 修改日志
      * @param diary
      * @return: int
      * @author: maiBangMin
@@ -117,7 +117,7 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     /**
-     * @desc:
+     * @desc: 删除日志
      * @param diaryID
      * @return: int
      * @author: maiBangMin

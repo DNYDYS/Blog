@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blog.mapper.DiaryMapper">
+  <resultMap id="BaseResultMap" type="com.blog.model.Diary">
+    <id column="dir_id" jdbcType="BIGINT" property="dirId" />
+    <result column="dir_title" jdbcType="VARCHAR" property="dirTitle" />
+    <result column="dir_context" jdbcType="VARCHAR" property="dirContext" />
+    <result column="creater_user" jdbcType="VARCHAR" property="createrUser" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="creater_time" jdbcType="TIMESTAMP" property="createrTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="is_deleted" jdbcType="VARCHAR" property="isDeleted" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.blog.model.Diary">
+    <result column="dir_summmary" jdbcType="LONGVARCHAR" property="dirSummmary" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    dir_id, dir_title, dir_context, creater_user, update_user, creater_time, update_time, 
+    is_deleted
+  </sql>
+  <sql id="Blob_Column_List">
+    dir_summmary
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.blog.model.DiaryExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from diary
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.blog.model.DiaryExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from diary
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from diary
+    where dir_id = #{dirId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from diary
+    where dir_id = #{dirId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.blog.model.DiaryExample">
+    delete from diary
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.blog.model.Diary">
+    insert into diary (dir_id, dir_title, dir_context, 
+      creater_user, update_user, creater_time, 
+      update_time, is_deleted, dir_summmary
+      )
+    values (#{dirId,jdbcType=BIGINT}, #{dirTitle,jdbcType=VARCHAR}, #{dirContext,jdbcType=VARCHAR}, 
+      #{createrUser,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, #{createrTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=VARCHAR}, #{dirSummmary,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.blog.model.Diary">
+    insert into diary
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dirId != null">
+        dir_id,
+      </if>
+      <if test="dirTitle != null">
+        dir_title,
+      </if>
+      <if test="dirContext != null">
+        dir_context,
+      </if>
+      <if test="createrUser != null">
+        creater_user,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="createrTime != null">
+        creater_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="dirSummmary != null">
+        dir_summmary,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dirId != null">
+        #{dirId,jdbcType=BIGINT},
+      </if>
+      <if test="dirTitle != null">
+        #{dirTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="dirContext != null">
+        #{dirContext,jdbcType=VARCHAR},
+      </if>
+      <if test="createrUser != null">
+        #{createrUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createrTime != null">
+        #{createrTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=VARCHAR},
+      </if>
+      <if test="dirSummmary != null">
+        #{dirSummmary,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.blog.model.DiaryExample" resultType="java.lang.Integer">
+    select count(*) from diary
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update diary
+    <set>
+      <if test="record.dirId != null">
+        dir_id = #{record.dirId,jdbcType=BIGINT},
+      </if>
+      <if test="record.dirTitle != null">
+        dir_title = #{record.dirTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dirContext != null">
+        dir_context = #{record.dirContext,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createrUser != null">
+        creater_user = #{record.createrUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createrTime != null">
+        creater_time = #{record.createrTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dirSummmary != null">
+        dir_summmary = #{record.dirSummmary,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update diary
+    set dir_id = #{record.dirId,jdbcType=BIGINT},
+      dir_title = #{record.dirTitle,jdbcType=VARCHAR},
+      dir_context = #{record.dirContext,jdbcType=VARCHAR},
+      creater_user = #{record.createrUser,jdbcType=VARCHAR},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      creater_time = #{record.createrTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      is_deleted = #{record.isDeleted,jdbcType=VARCHAR},
+      dir_summmary = #{record.dirSummmary,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update diary
+    set dir_id = #{record.dirId,jdbcType=BIGINT},
+      dir_title = #{record.dirTitle,jdbcType=VARCHAR},
+      dir_context = #{record.dirContext,jdbcType=VARCHAR},
+      creater_user = #{record.createrUser,jdbcType=VARCHAR},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      creater_time = #{record.createrTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      is_deleted = #{record.isDeleted,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.blog.model.Diary">
+    update diary
+    <set>
+      <if test="dirTitle != null">
+        dir_title = #{dirTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="dirContext != null">
+        dir_context = #{dirContext,jdbcType=VARCHAR},
+      </if>
+      <if test="createrUser != null">
+        creater_user = #{createrUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createrTime != null">
+        creater_time = #{createrTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=VARCHAR},
+      </if>
+      <if test="dirSummmary != null">
+        dir_summmary = #{dirSummmary,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where dir_id = #{dirId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.blog.model.Diary">
+    update diary
+    set dir_title = #{dirTitle,jdbcType=VARCHAR},
+      dir_context = #{dirContext,jdbcType=VARCHAR},
+      creater_user = #{createrUser,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      creater_time = #{createrTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      is_deleted = #{isDeleted,jdbcType=VARCHAR},
+      dir_summmary = #{dirSummmary,jdbcType=LONGVARCHAR}
+    where dir_id = #{dirId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.blog.model.Diary">
+    update diary
+    set dir_title = #{dirTitle,jdbcType=VARCHAR},
+      dir_context = #{dirContext,jdbcType=VARCHAR},
+      creater_user = #{createrUser,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      creater_time = #{createrTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      is_deleted = #{isDeleted,jdbcType=VARCHAR}
+    where dir_id = #{dirId,jdbcType=BIGINT}
+  </update>
+</mapper>
