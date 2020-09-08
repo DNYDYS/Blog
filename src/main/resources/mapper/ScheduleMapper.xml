@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blog.mapper.ScheduleMapper">
+  <resultMap id="BaseResultMap" type="com.blog.model.Schedule">
+    <id column="sch_id" jdbcType="BIGINT" property="schId" />
+    <result column="sch_name" jdbcType="VARCHAR" property="schName" />
+    <result column="sch_text" jdbcType="VARCHAR" property="schText" />
+    <result column="sch_plan" jdbcType="VARCHAR" property="schPlan" />
+    <result column="sch_expect_start_time" jdbcType="TIMESTAMP" property="schExpectStartTime" />
+    <result column="sch_expect_end_time" jdbcType="TIMESTAMP" property="schExpectEndTime" />
+    <result column="sch_reality_start_time" jdbcType="TIMESTAMP" property="schRealityStartTime" />
+    <result column="sch_reality_end_time" jdbcType="TIMESTAMP" property="schRealityEndTime" />
+    <result column="creater_user" jdbcType="VARCHAR" property="createrUser" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="creater_time" jdbcType="TIMESTAMP" property="createrTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="is_deleted" jdbcType="VARCHAR" property="isDeleted" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.blog.model.Schedule">
+    <result column="sch_summary" jdbcType="LONGVARCHAR" property="schSummary" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    sch_id, sch_name, sch_text, sch_plan, sch_expect_start_time, sch_expect_end_time, 
+    sch_reality_start_time, sch_reality_end_time, creater_user, update_user, creater_time, 
+    update_time, is_deleted
+  </sql>
+  <sql id="Blob_Column_List">
+    sch_summary
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.blog.model.ScheduleExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from schedule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.blog.model.ScheduleExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from schedule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from schedule
+    where sch_id = #{schId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from schedule
+    where sch_id = #{schId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.blog.model.ScheduleExample">
+    delete from schedule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.blog.model.Schedule">
+    insert into schedule (sch_id, sch_name, sch_text, 
+      sch_plan, sch_expect_start_time, sch_expect_end_time, 
+      sch_reality_start_time, sch_reality_end_time, 
+      creater_user, update_user, creater_time, 
+      update_time, is_deleted, sch_summary
+      )
+    values (#{schId,jdbcType=BIGINT}, #{schName,jdbcType=VARCHAR}, #{schText,jdbcType=VARCHAR}, 
+      #{schPlan,jdbcType=VARCHAR}, #{schExpectStartTime,jdbcType=TIMESTAMP}, #{schExpectEndTime,jdbcType=TIMESTAMP}, 
+      #{schRealityStartTime,jdbcType=TIMESTAMP}, #{schRealityEndTime,jdbcType=TIMESTAMP}, 
+      #{createrUser,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, #{createrTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=VARCHAR}, #{schSummary,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.blog.model.Schedule">
+    insert into schedule
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="schId != null">
+        sch_id,
+      </if>
+      <if test="schName != null">
+        sch_name,
+      </if>
+      <if test="schText != null">
+        sch_text,
+      </if>
+      <if test="schPlan != null">
+        sch_plan,
+      </if>
+      <if test="schExpectStartTime != null">
+        sch_expect_start_time,
+      </if>
+      <if test="schExpectEndTime != null">
+        sch_expect_end_time,
+      </if>
+      <if test="schRealityStartTime != null">
+        sch_reality_start_time,
+      </if>
+      <if test="schRealityEndTime != null">
+        sch_reality_end_time,
+      </if>
+      <if test="createrUser != null">
+        creater_user,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="createrTime != null">
+        creater_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="schSummary != null">
+        sch_summary,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="schId != null">
+        #{schId,jdbcType=BIGINT},
+      </if>
+      <if test="schName != null">
+        #{schName,jdbcType=VARCHAR},
+      </if>
+      <if test="schText != null">
+        #{schText,jdbcType=VARCHAR},
+      </if>
+      <if test="schPlan != null">
+        #{schPlan,jdbcType=VARCHAR},
+      </if>
+      <if test="schExpectStartTime != null">
+        #{schExpectStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="schExpectEndTime != null">
+        #{schExpectEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="schRealityStartTime != null">
+        #{schRealityStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="schRealityEndTime != null">
+        #{schRealityEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createrUser != null">
+        #{createrUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createrTime != null">
+        #{createrTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=VARCHAR},
+      </if>
+      <if test="schSummary != null">
+        #{schSummary,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.blog.model.ScheduleExample" resultType="java.lang.Integer">
+    select count(*) from schedule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update schedule
+    <set>
+      <if test="record.schId != null">
+        sch_id = #{record.schId,jdbcType=BIGINT},
+      </if>
+      <if test="record.schName != null">
+        sch_name = #{record.schName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schText != null">
+        sch_text = #{record.schText,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schPlan != null">
+        sch_plan = #{record.schPlan,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schExpectStartTime != null">
+        sch_expect_start_time = #{record.schExpectStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.schExpectEndTime != null">
+        sch_expect_end_time = #{record.schExpectEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.schRealityStartTime != null">
+        sch_reality_start_time = #{record.schRealityStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.schRealityEndTime != null">
+        sch_reality_end_time = #{record.schRealityEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createrUser != null">
+        creater_user = #{record.createrUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createrTime != null">
+        creater_time = #{record.createrTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schSummary != null">
+        sch_summary = #{record.schSummary,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update schedule
+    set sch_id = #{record.schId,jdbcType=BIGINT},
+      sch_name = #{record.schName,jdbcType=VARCHAR},
+      sch_text = #{record.schText,jdbcType=VARCHAR},
+      sch_plan = #{record.schPlan,jdbcType=VARCHAR},
+      sch_expect_start_time = #{record.schExpectStartTime,jdbcType=TIMESTAMP},
+      sch_expect_end_time = #{record.schExpectEndTime,jdbcType=TIMESTAMP},
+      sch_reality_start_time = #{record.schRealityStartTime,jdbcType=TIMESTAMP},
+      sch_reality_end_time = #{record.schRealityEndTime,jdbcType=TIMESTAMP},
+      creater_user = #{record.createrUser,jdbcType=VARCHAR},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      creater_time = #{record.createrTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      is_deleted = #{record.isDeleted,jdbcType=VARCHAR},
+      sch_summary = #{record.schSummary,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update schedule
+    set sch_id = #{record.schId,jdbcType=BIGINT},
+      sch_name = #{record.schName,jdbcType=VARCHAR},
+      sch_text = #{record.schText,jdbcType=VARCHAR},
+      sch_plan = #{record.schPlan,jdbcType=VARCHAR},
+      sch_expect_start_time = #{record.schExpectStartTime,jdbcType=TIMESTAMP},
+      sch_expect_end_time = #{record.schExpectEndTime,jdbcType=TIMESTAMP},
+      sch_reality_start_time = #{record.schRealityStartTime,jdbcType=TIMESTAMP},
+      sch_reality_end_time = #{record.schRealityEndTime,jdbcType=TIMESTAMP},
+      creater_user = #{record.createrUser,jdbcType=VARCHAR},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      creater_time = #{record.createrTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      is_deleted = #{record.isDeleted,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.blog.model.Schedule">
+    update schedule
+    <set>
+      <if test="schName != null">
+        sch_name = #{schName,jdbcType=VARCHAR},
+      </if>
+      <if test="schText != null">
+        sch_text = #{schText,jdbcType=VARCHAR},
+      </if>
+      <if test="schPlan != null">
+        sch_plan = #{schPlan,jdbcType=VARCHAR},
+      </if>
+      <if test="schExpectStartTime != null">
+        sch_expect_start_time = #{schExpectStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="schExpectEndTime != null">
+        sch_expect_end_time = #{schExpectEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="schRealityStartTime != null">
+        sch_reality_start_time = #{schRealityStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="schRealityEndTime != null">
+        sch_reality_end_time = #{schRealityEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createrUser != null">
+        creater_user = #{createrUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createrTime != null">
+        creater_time = #{createrTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=VARCHAR},
+      </if>
+      <if test="schSummary != null">
+        sch_summary = #{schSummary,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where sch_id = #{schId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.blog.model.Schedule">
+    update schedule
+    set sch_name = #{schName,jdbcType=VARCHAR},
+      sch_text = #{schText,jdbcType=VARCHAR},
+      sch_plan = #{schPlan,jdbcType=VARCHAR},
+      sch_expect_start_time = #{schExpectStartTime,jdbcType=TIMESTAMP},
+      sch_expect_end_time = #{schExpectEndTime,jdbcType=TIMESTAMP},
+      sch_reality_start_time = #{schRealityStartTime,jdbcType=TIMESTAMP},
+      sch_reality_end_time = #{schRealityEndTime,jdbcType=TIMESTAMP},
+      creater_user = #{createrUser,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      creater_time = #{createrTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      is_deleted = #{isDeleted,jdbcType=VARCHAR},
+      sch_summary = #{schSummary,jdbcType=LONGVARCHAR}
+    where sch_id = #{schId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.blog.model.Schedule">
+    update schedule
+    set sch_name = #{schName,jdbcType=VARCHAR},
+      sch_text = #{schText,jdbcType=VARCHAR},
+      sch_plan = #{schPlan,jdbcType=VARCHAR},
+      sch_expect_start_time = #{schExpectStartTime,jdbcType=TIMESTAMP},
+      sch_expect_end_time = #{schExpectEndTime,jdbcType=TIMESTAMP},
+      sch_reality_start_time = #{schRealityStartTime,jdbcType=TIMESTAMP},
+      sch_reality_end_time = #{schRealityEndTime,jdbcType=TIMESTAMP},
+      creater_user = #{createrUser,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      creater_time = #{createrTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      is_deleted = #{isDeleted,jdbcType=VARCHAR}
+    where sch_id = #{schId,jdbcType=BIGINT}
+  </update>
+</mapper>
