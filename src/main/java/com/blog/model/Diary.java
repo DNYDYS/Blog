@@ -1,10 +1,12 @@
 package com.blog.model;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Date;
 
+@ToString
 public class Diary implements Serializable {
     @ApiModelProperty(value = "日记编号")
     private Long dirId;

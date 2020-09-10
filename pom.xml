@@ -159,6 +159,13 @@
         </dependency>
         <!-- spring-aop-End -->
 
+        <!-- junit -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <!-- 工具类 begin -->
         <!-- common-lang3 -->
         <dependency>
@@ -193,9 +200,33 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.11.2</version>
         </dependency>
-
-
         <!-- 工具类 end -->
+
+        <!-- Excel -->
+        <!-- EasyExcel -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
+            <version>1.1.2-beta4</version>
+        </dependency>
+
+        <!-- Poi -->
+<!--        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.17</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.17</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml-schemas</artifactId>
+            <version>3.17</version>
+        </dependency>-->
+
 
 
     </dependencies>

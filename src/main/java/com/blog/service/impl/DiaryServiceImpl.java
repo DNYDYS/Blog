@@ -36,7 +36,7 @@ public class DiaryServiceImpl implements DiaryService {
      */
     @Override
     public CommonResponce<List<Diary>> queryAllDiarys() {
-        List<Diary> diaryList = new ArrayList<>();
+        List<Diary> diaryList = new ArrayList<Diary>();
         DiaryExample diaryExample = new DiaryExample();
         // Y 代表删除 N 代表未删除
         diaryExample.createCriteria().andIsDeletedEqualTo(N);
