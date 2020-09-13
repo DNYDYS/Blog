@@ -1,11 +1,12 @@
 package com.blog.shiro;
 
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import cn.hutool.core.codec.Base64;
-import com.sun.javafx.logging.JFRInputEvent;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.SessionListener;
+import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -18,19 +19,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.util.Base64Utils;
 
 import javax.servlet.Filter;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Map;
+import java.util.*;
 
 /*
  * @Author maiBangMin
- * TODO
  * @Description [Shiro配置类]
  * @Date 8:34 下午 2020/9/12
  * @Version 1.0
@@ -96,6 +92,19 @@ public class ShiroConfig {
         cookieRememberMeManager.setCipherKey(Base64.decode(rememberKey));
         return cookieRememberMeManager;
     }
+    
+    
+    /*
+     * @Author maiBangMin
+     * @Description 配置自定义认证和权限规则
+     * @Date 1:01 下午 2020/9/13
+     * @Param 
+     * @return 
+     **/
+    @Bean
+    public ShiroRealm shiroRealm(){
+        return new ShiroRealm();
+    }
 
 
     /*
@@ -134,11 +143,19 @@ public class ShiroConfig {
         // 登录失败的url
         shiroFilterFactoryBean.setUnauthorizedUrl(shiroProperties.getShiroProConfig().getLogoutUrl());
 
-        // TODO  shiro自定义拦截链待补全
-        return null;
+        LinkedHashMap<String, String> filterChainDfinitionMap = new LinkedHashMap<>();
+        // 设置免认证url
+        String[] annoUrls = StringUtils.splitByWholeSeparatorPreserveAllTokens(shiroProperties.getShiroProConfig().getAnnoUrl(), ",");
+        for (String url:annoUrls) {
+            filterChainDfinitionMap.put(url,"anno");
+        }
+        // 配置退出过滤器
+        filterChainDfinitionMap.put(shiroProperties.getShiroProConfig().getLogoutUrl(),"logout");
+        // 以上路径除外,都需要被拦截
+        filterChainDfinitionMap.put("/**","user");
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDfinitionMap);
+        return shiroFilterFactoryBean;
     }
-
-
 
     /*
      * @Author maiBangMin
@@ -149,8 +166,8 @@ public class ShiroConfig {
      **/
     @Bean
     public RedisCacheManager cacheManager(){
-        RedisOperations redisTemplate;
-        org.crazycake.shiro.RedisCacheManager redisCacheManager = new RedisCacheManager();
+        RedisCacheManager redisCacheManager = new RedisCacheManager();
+        redisCacheManager.setRedisManager(redisManager());
         return redisCacheManager;
     }
 
@@ -173,6 +190,33 @@ public class ShiroConfig {
             redisManager.setPassword(password);
         }
         return redisManager;
+    }
+
+    
+    /*
+     * @Author maiBangMin
+     * @Description 通知器
+     * @Date 2:08 下午 2020/9/13
+     * @Param 
+     * @return 
+     **/
+    @Bean
+    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager){
+        AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
+        authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
+        return authorizationAttributeSourceAdvisor;
+    }
+
+    /*
+     * @Author maiBangMin
+     * @Description 用于 Thymeleaf 中 Shiro标签的使用
+     * @Date 1:03 下午 2020/9/13
+     * @Param 
+     * @return 
+     **/
+    @Bean
+    public ShiroDialect shiroDialect(){
+        return new ShiroDialect();
     }
 
     /*

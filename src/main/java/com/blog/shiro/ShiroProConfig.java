@@ -24,6 +24,9 @@ public class ShiroProConfig {
     // remember 有效时长 默认为 86400s(一天时间)
     private int cookieTimeout = 86400;
 
+    // 注解路径(免认证)
+    private String annoUrl;
+
     // shiro LoginUrl
     private String loginUrl = "/login";
 
