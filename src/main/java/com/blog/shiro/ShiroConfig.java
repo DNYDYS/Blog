@@ -196,7 +196,7 @@ public class ShiroConfig {
     /*
      * @Author maiBangMin
      * @Description 通知器
-     * @Date 2:08 下午 2020/9/13
+     * @Date 2:10 下午 2020/9/13
      * @Param 
      * @return 
      **/
